@@ -23,7 +23,17 @@ The goal is to provide documentation and a C# wrapper for the API.
 }
 ```
 - Include these in the header for future requests on protected methods.
+## C# Wrapper
+To use the library, create a reference for it in a project.
+
+Now it's accessible through the `LibNR` namespace. The data models are inside the `LibNR.Data` namespace.
+
+For now, every model has it's own `Create(...)` method, which interacts with the API, and returns an object with the same type. If the request fails, the object will keep its default property values.
+
+Some properties might have a NULL value.
+
 ## TODO
+- Move HTTP requests to a single standalone function
 - Create all the models for JSON serialization/deserialization
 - Config.json
 - Livemap
