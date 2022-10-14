@@ -15,13 +15,14 @@ The goal is to provide documentation and a C# wrapper for the API.
 ```
 - The response contains two items:
     - `easharpptr_u` the auth token
-    - `easharpptr_p` the user id
+    - `easharpptr_p` the last persona id
 ```json
 {
     "easharpptr_u": "long.token.string",
     "easharpptr_p": "123456"
 }
 ```
+- With these credentials, you can do a `{"serviceName": "session","methodName": "GetUserInfo"}` POST request to get other persona IDs.
 - Include these in the header for future requests on protected methods.
 ## C# Wrapper
 To use the library, create a reference for it in a project.
