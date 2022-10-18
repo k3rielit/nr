@@ -1,7 +1,7 @@
 # NightRiderz API reversing
 The goal is to provide documentation and a C# wrapper for the API.
 ## Auth: Basic
-- Send a request with this request body:
+Send a request with this body to `https://api.nightriderz.world/gateway.php?contentType=application/json`:
 ```json
 {
     "serviceName": "session",
@@ -13,28 +13,35 @@ The goal is to provide documentation and a C# wrapper for the API.
     ]
 }
 ```
-- The response contains two items:
-    - `easharpptr_u` the auth token
-    - `easharpptr_p` the last persona id
+The response contains two items if the credentials were correct (200), otherwise 401 Unauthorized:
+  - `easharpptr_u` the auth token
+  - `easharpptr_p` the main persona id
 ```json
 {
     "easharpptr_u": "long.token.string",
     "easharpptr_p": "123456"
 }
 ```
-- With these credentials, you can do a `{"serviceName": "session","methodName": "GetUserInfo"}` POST request to get other persona IDs.
-- Include these in the header for future requests on protected methods.
+With these credentials included in the header, you can do a `{"serviceName": "session","methodName": "GetUserInfo"}` POST request to get other persona IDs.
+Most of the methods require this header.
+
 ## C# Wrapper
-To use the library, create a reference for it in a project.
+To use the library, create a reference for it in the project.
 
-Now it's accessible through the `LibNR` namespace. The data models are inside the `LibNR.Data` namespace.
+Now it's accessible through the `LibNR` namespace. Currently only the raw data structures are being implemented under the `LibNR.RawClasses` namespace. Errors are handled and suppressed, while returning objects with their default values (usually empty strings/lists).
 
-For now, every model has it's own `Create(...)` method, which interacts with the API, and returns an object with the same type. If the request fails, the object will keep its default property values.
+Right now, the queries has the same structure as the original API. There are seperate classes for each services' methods. For example to login, or get user data, use the Session class:
+```cs
+using LibNR;
+using LibNR.RawClasses;
 
-Some properties might have a NULL value.
+rSessionLogin token = await Session.Login("email","password");
+rSessionUserInfo userInfo = await Session.GetUserInfo(token);
+```
 
 ## TODO
-- Move HTTP requests to a single standalone function
 - Create all the models for JSON serialization/deserialization
+- Create an abstraction on top of the original data structures
+- Improve exception handling, or make it optional
 - Config.json
 - Livemap
