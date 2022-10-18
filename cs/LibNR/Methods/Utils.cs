@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace LibNR {
     public static class Utils {
-        public static async Task<string> ReqAsync(HttpMethod method, string easharpptr_p, string easharpptr_u, string body, string path = "https://api.nightriderz.world/gateway.php?contentType=application%2Fjson") {
+        public static async Task<string> ReqAsync(HttpMethod method, int personaId, string token, string body, string path = "https://api.nightriderz.world/gateway.php?contentType=application%2Fjson") {
             HttpClient client = new();
             var request = new HttpRequestMessage {
                 Method = method,
                 RequestUri = new Uri(path),
                 Headers = {
-                    { "easharpptr-p", easharpptr_p },
-                    { "easharpptr-u", easharpptr_u },
+                    { "easharpptr-p", personaId.ToString() },
+                    { "easharpptr-u", token },
                 },
                 Content = new StringContent(body)
             };
@@ -49,5 +50,8 @@ namespace LibNR {
             }
             return string.Empty;
         }
+
+        // Serialization
+        public static string ToJson(this SessionUserInfo self) => JsonConvert.SerializeObject(self,LibNR.Converter.Settings);
     }
 }
