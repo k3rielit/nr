@@ -26,22 +26,27 @@ With these credentials included in the header, you can do a `{"serviceName": "se
 Most of the methods require this header.
 
 ## C# Wrapper
-To use the library, create a reference for it in the project.
+To use the library, create a reference for it in the project, then it's accessible through the `LibNR` namespace.
 
-Now it's accessible through the `LibNR` namespace. Currently only the raw data structures are being implemented under the `LibNR.RawClasses` namespace. Errors are handled and suppressed, while returning objects with their default values (usually empty strings/lists).
+Errors are handled, while returning objects with their default values (usually 0, false, empty string, empty list, 0001.01.01., etc). During the json parsing, properties with null values are skipped and the default values are being kept.
 
-Right now, the queries has the same structure as the original API. There are seperate classes for each services' methods. For example to login, or get user data, use the Session class:
+Data queries has the same structure as the original API. There are seperate classes for each services' methods. For example to login, or get user data, use the Session class:
 ```cs
 using LibNR;
-using LibNR.RawClasses;
 
-rSessionLogin token = await Session.Login("email","password");
-rSessionUserInfo userInfo = await Session.GetUserInfo(token);
+SessionLogin token = await Session.Login("email","password");
+SessionUserInfo userInfo = await Session.GetUserInfo(token);
 ```
 
+*Methods requiring auth instead of `(SessionLogin token)`, also accept `(int PersonaId, string Token)` parameters, to avoid making unnecessary objects when querying for alt personas for example.*
+
+The NightRiderz project included in the solution contains more examples.
 ## TODO
 - Create all the models for JSON serialization/deserialization
 - Create an abstraction on top of the original data structures
 - Improve exception handling, or make it optional
-- Config.json
+- config.json
 - Livemap
+- Check for duplicate properties
+- Document methods
+- Make a helper class to automate queries and IO
