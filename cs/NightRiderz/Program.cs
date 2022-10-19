@@ -16,7 +16,7 @@ namespace NightRiderz {
         static async void Run() {
             // Login
             SessionLogin token = await Session.Login("email","password");
-            // User info
+            // User Info
             SessionUserInfo userInfo = await Session.GetUserInfo(token);
             Console.WriteLine($"User: #{userInfo.User.Id}");
             Console.WriteLine($"Personas[{userInfo.PersonaCount}]:");
@@ -24,10 +24,18 @@ namespace NightRiderz {
             foreach(var persona in userInfo.Others) {
                 Console.WriteLine($" - Alt  {persona.Name}#{persona.Id}  Lv{persona.Level}  {persona.Rep} REP  {persona.Cash} $  {persona.SpeedBoost} SB");
             }
-            // Crew cards
+            // Crew Cards
+            Thread.Sleep(2000);
             List<CrewCard> crewCards = await Crew.GetCards(token);
             foreach(var crew in crewCards) {
                 Console.WriteLine($"{crew.Tag,-11} {crew.Name+'#'+crew.CrewId,-30} Lv{crew.Level}\t{crew.MemberCount} Members\t{crew.Points} CP");
+            }
+            // Player Profile
+            Thread.Sleep(2000);
+            PlayerInfo playerInfo = await Players.GetInfo(token,100);
+            Console.WriteLine($"Got: {playerInfo.Name}#{playerInfo.PersonaId} ({playerInfo.Role})  Lv{playerInfo.Level}  {playerInfo.Cash} $  {playerInfo.SpeedBoost} SB");
+            foreach(var otherPersona in playerInfo.OtherPersonas) {
+                Console.WriteLine($" - Alt {otherPersona.Name}#{otherPersona.PersonaId}");
             }
             return;
         }
