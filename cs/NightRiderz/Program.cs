@@ -15,10 +15,10 @@ namespace NightRiderz {
         }
         static async void Run() {
             // Login
-            SessionLogin token = await Session.Login("email","password");
+            var token = await Session.Login("email","password");
 
             // User Info
-            SessionUserInfo userInfo = await Session.GetUserInfo(token);
+            var userInfo = await Session.GetUserInfo(token);
             Console.WriteLine($"User: #{userInfo.User.Id}");
             Console.WriteLine($"Personas[{userInfo.PersonaCount}]:");
             Console.WriteLine($" - Main {userInfo.Persona.Name}#{userInfo.Persona.Id} Lv{userInfo.Persona.Level}  {userInfo.Persona.Rep} REP  {userInfo.Persona.Cash} $  {userInfo.Persona.SpeedBoost} SB");
@@ -28,18 +28,29 @@ namespace NightRiderz {
 
             // Crew Cards
             Thread.Sleep(2000);
-            List<CrewCard> crewCards = await Crew.GetCards(token);
+            var crewCards = await Crew.GetCards(token);
             foreach(var crew in crewCards) {
                 Console.WriteLine($"{crew.Tag,-11} {crew.Name+'#'+crew.CrewId,-30} Lv{crew.Level}\t{crew.MemberCount} Members\t{crew.Points} CP");
             }
 
             // Player Profile
             Thread.Sleep(2000);
-            PlayerInfo playerInfo = await Players.GetInfo(token,100);
+            var playerInfo = await Players.GetInfo(token,100);
             Console.WriteLine($"Got: {playerInfo.Name}#{playerInfo.PersonaId} ({playerInfo.Role})  Lv{playerInfo.Level}  {playerInfo.Cash} $  {playerInfo.SpeedBoost} SB");
             foreach(var otherPersona in playerInfo.OtherPersonas) {
                 Console.WriteLine($" - Alt {otherPersona.Name}#{otherPersona.PersonaId}");
             }
+
+            // Crew districts
+            Thread.Sleep(2000);
+            var districts = await Crew.GetDistricts(token);
+            foreach(var city in districts) {
+                Console.WriteLine($"{city.Name}:");
+                foreach(var district in city.Districts) {
+                    Console.WriteLine($" - #{district.Id} {district.Name}");
+                }
+            }
+
             return;
         }
     }

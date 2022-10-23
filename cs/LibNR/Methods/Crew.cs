@@ -36,6 +36,18 @@ namespace LibNR {
         }
         public static async Task<List<CrewCard>> GetCards(SessionLogin login,int districtId) => await GetCards(login.PersonaId,login.Token,districtId);
 
-
+        // Get a list of available districts
+        public static async Task<List<CrewDistrict>> GetDistricts(int personaId,string token) {
+            string raw = await Utils.ReqAsync(HttpMethod.Post,personaId,token,"{\"serviceName\":\"crew\",\"methodName\":\"GetDistrict\"}");
+            List<CrewDistrict> districts = new();
+            try {
+                districts = JsonConvert.DeserializeObject<List<CrewDistrict>>(raw,Converter.Settings) ?? new();
+            }
+            catch(Exception ex) {
+                Console.WriteLine($"ERROR Crew.GetDistricts(): {ex.Message}");
+            }
+            return districts;
+        }
+        public static async Task<List<CrewDistrict>> GetDistricts(SessionLogin login) => await GetDistricts(login.PersonaId,login.Token);
     }
 }
