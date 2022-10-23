@@ -50,3 +50,4 @@ The NightRiderz project included in the solution contains more examples.
 - Check for duplicate properties
 - Document methods
 - Make a helper class to automate queries and IO
+- Abstract request bodies into easy to create objects
