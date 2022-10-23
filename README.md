@@ -34,8 +34,8 @@ Data queries has the same structure as the original API. There are seperate clas
 ```cs
 using LibNR;
 
-SessionLogin token = await Session.Login("email","password");
-SessionUserInfo userInfo = await Session.GetUserInfo(token);
+var token = await Session.Login("email","password");
+var userInfo = await Session.GetUserInfo(token);
 ```
 
 *Methods requiring auth instead of `(SessionLogin token)`, also accept `(int PersonaId, string Token)` parameters, to avoid making unnecessary objects when querying for alt personas for example.*
