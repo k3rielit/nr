@@ -22,7 +22,7 @@ namespace LibNR {
 
         [JsonProperty("open")]
         [JsonConverter(typeof(IntToBoolConverter))]
-        public bool Open { get; set; } = false;
+        public bool IsOpen { get; set; } = false;
 
         [JsonProperty("name")]
         public string Name { get; set; } = string.Empty;
@@ -34,7 +34,7 @@ namespace LibNR {
         public string City { get; set; } = string.Empty;
 
         [JsonProperty("district")]
-        public string District { get; set; } = string.Empty;
+        public string DistrictName { get; set; } = string.Empty;
 
         [JsonProperty("districtid")]
         public int DistrictId { get; set; } = 0;
