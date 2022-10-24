@@ -34,8 +34,8 @@ Data queries has the same structure as the original API. There are seperate clas
 ```cs
 using LibNR;
 
-SessionLogin token = await Session.Login("email","password");
-SessionUserInfo userInfo = await Session.GetUserInfo(token);
+var token = await Session.Login("email","password");
+var userInfo = await Session.GetUserInfo(token);
 ```
 
 *Methods requiring auth instead of `(SessionLogin token)`, also accept `(int PersonaId, string Token)` parameters, to avoid making unnecessary objects when querying for alt personas for example.*
@@ -51,3 +51,4 @@ The NightRiderz project included in the solution contains more examples.
 - Document methods
 - Make a helper class to automate queries and IO
 - Abstract request bodies into easy to create objects
+- Maybe add a `bool WasSuccessfulQuery` property to every model
