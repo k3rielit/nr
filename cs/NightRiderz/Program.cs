@@ -26,15 +26,8 @@ namespace NightRiderz {
                 Console.WriteLine($" - Alt  {persona.Name}#{persona.Id}  Lv{persona.Level}  {persona.Rep} REP  {persona.Cash} $  {persona.SpeedBoost} SB");
             }
 
-            // Crew Cards
-            Thread.Sleep(2000);
-            var crewCards = await Crew.GetCards(token);
-            foreach(var crew in crewCards) {
-                Console.WriteLine($"{crew.Tag,-11} {crew.Name+'#'+crew.CrewId,-30} Lv{crew.Level}\t{crew.MemberCount} Members\t{crew.Points} CP");
-            }
-
             // Player Profile
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             var playerInfo = await Players.GetInfo(token,100);
             Console.WriteLine($"Got: {playerInfo.Name}#{playerInfo.PersonaId} ({playerInfo.Role})  Lv{playerInfo.Level}  {playerInfo.Cash} $  {playerInfo.SpeedBoost} SB");
             foreach(var otherPersona in playerInfo.OtherPersonas) {
@@ -42,7 +35,7 @@ namespace NightRiderz {
             }
 
             // Crew districts
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             var districts = await Crew.GetDistricts(token);
             foreach(var city in districts) {
                 Console.WriteLine($"{city.Name}:");
@@ -50,6 +43,18 @@ namespace NightRiderz {
                     Console.WriteLine($" - #{district.Id} {district.Name}");
                 }
             }
+
+            // Crew Cards
+            Thread.Sleep(1000);
+            var crewCards = await Crew.GetCards(token,22);
+            foreach(var crew in crewCards) {
+                Console.WriteLine($"{crew.Tag,-11} {crew.Name+'#'+crew.CrewId,-30} Lv{crew.Level}\t{crew.MemberCount} Members\t{crew.Points} CP");
+            }
+
+            // Crew info
+            Thread.Sleep(1000);
+            var crewInfo = await Crew.GetInfo(token,1333);
+            Console.WriteLine($"#{crewInfo.CrewId} [{crewInfo.Tag}] {crewInfo.Name} ^{crewInfo.Level} {crewInfo.Points} CP - in {crewInfo.City}, {crewInfo.DistrictName} - Drops {(crewInfo.DropsEnabled ? "Enabled" : "Disabled")}");
 
             return;
         }

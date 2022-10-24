@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 namespace LibNR {
     public class Crew {
+
         // Get all crew cards
         public static async Task<List<CrewCard>> GetCards(int personaId,string token) {
             string raw = await Utils.ReqAsync(HttpMethod.Post,personaId,token,"{\"serviceName\":\"crew\",\"methodName\":\"GetCards\"}");
@@ -20,6 +21,7 @@ namespace LibNR {
             return cards;
         }
         public static async Task<List<CrewCard>> GetCards(SessionLogin login) => await GetCards(login.PersonaId,login.Token);
+
 
         // Get crew cards from a district
         // It got implemented, but it's better to get and cache all cards, and then filter
@@ -36,6 +38,7 @@ namespace LibNR {
         }
         public static async Task<List<CrewCard>> GetCards(SessionLogin login,int districtId) => await GetCards(login.PersonaId,login.Token,districtId);
 
+
         // Get a list of available districts
         public static async Task<List<CrewDistrict>> GetDistricts(int personaId,string token) {
             string raw = await Utils.ReqAsync(HttpMethod.Post,personaId,token,"{\"serviceName\":\"crew\",\"methodName\":\"GetDistrict\"}");
@@ -49,5 +52,15 @@ namespace LibNR {
             return districts;
         }
         public static async Task<List<CrewDistrict>> GetDistricts(SessionLogin login) => await GetDistricts(login.PersonaId,login.Token);
+
+
+        // Gets the basic crew informations, excluding activity and members
+        public static async Task<CrewInfo> GetInfo(int personaId,string token,int crewId) {
+            string raw = await Utils.ReqAsync(HttpMethod.Post,personaId,token,"{\"serviceName\":\"crew\",\"methodName\":\"GetInfo\",\"parameters\":["+crewId+"]}");
+            var result = CrewInfo.FromJson(raw);
+            result.CrewId = crewId;
+            return result;
+        }
+        public static async Task<CrewInfo> GetInfo(SessionLogin login,int crewId) => await GetInfo(login.PersonaId,login.Token,crewId);
     }
 }

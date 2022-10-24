@@ -83,7 +83,7 @@ namespace LibNR {
         public long DiscordId { get; set; } = 0;
 
         [JsonProperty("nicknameColor")]
-        public string NicknameColor { get; set; } = string.Empty;
+        public string NicknameColor { get; set; } = "#ffffff";
 
         [JsonProperty("maxCarSlots")]
         public int MaxCarSlots { get; set; } = 0;
