@@ -51,3 +51,4 @@ The NightRiderz project included in the solution contains more examples.
 - Document methods
 - Make a helper class to automate queries and IO
 - Abstract request bodies into easy to create objects
+- Maybe add a `bool WasSuccessfulQuery` property to every model
