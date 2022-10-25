@@ -43,12 +43,10 @@ var userInfo = await Session.GetUserInfo(token);
 The NightRiderz project included in the solution contains more examples.
 ## TODO
 - Create all the models for JSON serialization/deserialization
-- Create an abstraction on top of the original data structures
 - Improve exception handling, or make it optional
 - config.json
 - Livemap
 - Check for duplicate properties
 - Document methods
 - Make a helper class to automate queries and IO
-- Abstract request bodies into easy to create objects
 - Maybe add a `bool WasSuccessfulQuery` property to every model
