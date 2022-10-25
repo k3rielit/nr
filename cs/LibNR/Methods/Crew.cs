@@ -62,5 +62,21 @@ namespace LibNR {
             return result;
         }
         public static async Task<CrewInfo> GetInfo(SessionLogin login, int crewId) => await GetInfo(login.PersonaId, login.Token, crewId);
+
+
+        // Gets a list of all the members in a crew
+        // Crew owners' CanManage is set to false for some reason
+        public static async Task<List<CrewMember>> GetMembers(int personaId, string token, int crewId) {
+            string raw = await Utils.ReqAsync(HttpMethod.Post, personaId, token, new PRequestBody { Service = "crew", Method = "GetMembers", Params = { crewId } });
+            List<CrewMember> members = new();
+            try {
+                members = JsonConvert.DeserializeObject<List<CrewMember>>(raw, Converter.Settings) ?? new();
+            }
+            catch(Exception ex) {
+                Console.WriteLine($"ERROR Crew.GetMembers(): {ex.Message}");
+            }
+            return members;
+        }
+        public static async Task<List<CrewMember>> GetMembers(SessionLogin login, int crewId) => await GetMembers(login.PersonaId, login.Token, crewId);
     }
 }

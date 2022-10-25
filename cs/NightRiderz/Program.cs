@@ -29,7 +29,7 @@ namespace NightRiderz {
 
             // Player Profile
             Thread.Sleep(1000);
-            var playerInfo = await Players.GetInfo(token,100);
+            var playerInfo = await Players.GetInfo(token, 100);
             Console.WriteLine($"Got: {playerInfo.Name}#{playerInfo.PersonaId} ({playerInfo.Role})  Lv{playerInfo.Level}  {playerInfo.Cash} $  {playerInfo.SpeedBoost} SB");
             foreach(var otherPersona in playerInfo.OtherPersonas) {
                 Console.WriteLine($" - Alt {otherPersona.Name}#{otherPersona.PersonaId}");
@@ -47,15 +47,19 @@ namespace NightRiderz {
 
             // Crew Cards
             Thread.Sleep(1000);
-            var crewCards = await Crew.GetCards(token,22);
+            var crewCards = await Crew.GetCards(token, 22);
             foreach(var crew in crewCards) {
                 Console.WriteLine($"{crew.Tag,-11} {crew.Name+'#'+crew.CrewId,-30} Lv{crew.Level}\t{crew.MemberCount} Members\t{crew.Points} CP");
             }
 
             // Crew info
             Thread.Sleep(1000);
-            var crewInfo = await Crew.GetInfo(token,1333);
+            var crewInfo = await Crew.GetInfo(token, 1333);
+            var crewMembers = await Crew.GetMembers(token, 1333);
             Console.WriteLine($"#{crewInfo.CrewId} [{crewInfo.Tag}] {crewInfo.Name} ^{crewInfo.Level} {crewInfo.Points} CP - in {crewInfo.City}, {crewInfo.DistrictName} - Drops {(crewInfo.DropsEnabled ? "Enabled" : "Disabled")}");
+            foreach(var member in crewMembers) {
+                Console.WriteLine($" - {(member.PersonaId==crewInfo.OwnerPersonaId ? "Owner  " : (member.CanManage ? "Manager" : "Member "))} {member.Name}#{member.PersonaId} {member.Points} CP");
+            }
 
             return;
         }
