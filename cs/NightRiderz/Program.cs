@@ -14,6 +14,7 @@ namespace NightRiderz {
             Console.ReadLine();
         }
         static async void Run() {
+
             // Login
             var token = await Session.Login("email","password");
 

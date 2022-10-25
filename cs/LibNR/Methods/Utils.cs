@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace LibNR {
     public static class Utils {
-        public static async Task<string> ReqAsync(HttpMethod method, int personaId, string token, string body, string path = "https://api.nightriderz.world/gateway.php?contentType=application%2Fjson") {
+        public static async Task<string> ReqAsync(HttpMethod method, int personaId, string token, RequestBody body, string path = "https://api.nightriderz.world/gateway.php?contentType=application%2Fjson") {
             HttpClient client = new();
             var request = new HttpRequestMessage {
                 Method = method,
@@ -16,7 +16,7 @@ namespace LibNR {
                     { "easharpptr-p", personaId.ToString() },
                     { "easharpptr-u", token },
                 },
-                Content = new StringContent(body)
+                Content = new StringContent(body.ToJson())
             };
             try {
                 using(var response = await client.SendAsync(request)) {
@@ -31,12 +31,12 @@ namespace LibNR {
             return string.Empty;
         }
 
-        public static async Task<string> ReqAsync(HttpMethod method, string body, string path = "https://api.nightriderz.world/gateway.php?contentType=application%2Fjson") {
+        public static async Task<string> ReqAsync(HttpMethod method, RequestBody body, string path = "https://api.nightriderz.world/gateway.php?contentType=application%2Fjson") {
             HttpClient client = new();
             var request = new HttpRequestMessage {
                 Method = method,
                 RequestUri = new Uri(path),
-                Content = new StringContent(body)
+                Content = new StringContent(body.ToJson())
             };
             try {
                 using(var response = await client.SendAsync(request)) {
