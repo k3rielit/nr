@@ -7,51 +7,37 @@ using Newtonsoft.Json;
 
 namespace LibNR {
     public static class Utils {
-        public static async Task<string> ReqAsync(HttpMethod method, int personaId, string token, RequestBody body, string path = "https://api.nightriderz.world/gateway.php?contentType=application%2Fjson") {
+        public static async Task<T?> NrGet<T>(HttpMethod method, RequestBody body, int? personaId = null, string? token = null) {
+            T? result = default;
             HttpClient client = new();
-            var request = new HttpRequestMessage {
+            var request = (personaId.HasValue && token!=null) ? new HttpRequestMessage {
                 Method = method,
-                RequestUri = new Uri(path),
+                RequestUri = new Uri("https://api.nightriderz.world/gateway.php?contentType=application%2Fjson"),
                 Headers = {
                     { "easharpptr-p", personaId.ToString() },
                     { "easharpptr-u", token },
                 },
                 Content = new StringContent(body.ToJson())
-            };
-            try {
-                using(var response = await client.SendAsync(request)) {
-                    response.EnsureSuccessStatusCode();
-                    var str = await response.Content.ReadAsStringAsync();
-                    return str;
-                }
-            }
-            catch(Exception) {
-                // TODO: better error handling, or rethrow option ...
-            }
-            return string.Empty;
-        }
-
-        public static async Task<string> ReqAsync(HttpMethod method, RequestBody body, string path = "https://api.nightriderz.world/gateway.php?contentType=application%2Fjson") {
-            HttpClient client = new();
-            var request = new HttpRequestMessage {
+            } : new HttpRequestMessage {
                 Method = method,
-                RequestUri = new Uri(path),
+                RequestUri = new Uri("https://api.nightriderz.world/gateway.php?contentType=application%2Fjson"),
                 Content = new StringContent(body.ToJson())
             };
             try {
                 using(var response = await client.SendAsync(request)) {
                     response.EnsureSuccessStatusCode();
                     var str = await response.Content.ReadAsStringAsync();
-                    return str;
+                    result = JsonConvert.DeserializeObject<T>(str, Converter.Settings) ?? result;
                 }
             }
-            catch(Exception) {
-                // TODO: better error handling, or rethrow option ...
+            catch(Exception ex) {
+                Console.WriteLine($"[ERROR DURING QUERY]\n > RequestBody:\"{body.ToJson()}\"\n > ErrorMessage:\"{ex.Message}\"");
             }
-            return string.Empty;
+            return result;
         }
 
-        // Serialization
-        public static string ToJson(this SessionUserInfo self) => JsonConvert.SerializeObject(self,LibNR.Converter.Settings);
+        public static async Task<T?> NrSet<T>(HttpMethod method, RequestBody body, int? personaId = null, string? token = null) {
+            throw new NotImplementedException();
+        }
     }
 }
