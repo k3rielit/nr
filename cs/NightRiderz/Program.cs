@@ -31,12 +31,16 @@ namespace NightRiderz {
             Thread.Sleep(1000);
             var playerInfo = await Players.GetInfo(token, 100);
             var playerActivity = await Players.GetActivity(token, 100);
+            var playerFriends = await Players.GetFriends(token, 100);
             Console.WriteLine($"Got: {playerInfo.Name}#{playerInfo.PersonaId} ({playerInfo.Role})  Lv{playerInfo.Level}  {playerInfo.Cash} $  {playerInfo.SpeedBoost} SB");
             foreach(var otherPersona in playerInfo.OtherPersonas) {
                 Console.WriteLine($" - Alt {otherPersona.Name}#{otherPersona.PersonaId}");
             }
             foreach(var activity in playerActivity.Take(10)) {
                 Console.WriteLine($" > {activity.EventName} - [{activity.Car.Class}{activity.Car.Rating}] {activity.Car.Name} - {activity.Time.TotalSeconds}s - {activity.PlayedAt}");
+            }
+            foreach(var friend in playerFriends.Take(10)) {
+                Console.WriteLine($" + {friend.Name}#{friend.PersonaId} Lv{friend.Level}");
             }
 
             // Crew districts
