@@ -27,12 +27,16 @@ namespace NightRiderz {
                 Console.WriteLine($" - Alt  {persona.Name}#{persona.Id}  Lv{persona.Level}  {persona.Rep} REP  {persona.Cash} $  {persona.SpeedBoost} SB");
             }
 
-            // Player Profile
+            // Player
             Thread.Sleep(1000);
             var playerInfo = await Players.GetInfo(token, 100);
+            var playerActivity = await Players.GetActivity(token, 100);
             Console.WriteLine($"Got: {playerInfo.Name}#{playerInfo.PersonaId} ({playerInfo.Role})  Lv{playerInfo.Level}  {playerInfo.Cash} $  {playerInfo.SpeedBoost} SB");
             foreach(var otherPersona in playerInfo.OtherPersonas) {
                 Console.WriteLine($" - Alt {otherPersona.Name}#{otherPersona.PersonaId}");
+            }
+            foreach(var activity in playerActivity.Take(10)) {
+                Console.WriteLine($" > {activity.EventName} - [{activity.Car.Class}{activity.Car.Rating}] {activity.Car.Name} - {activity.Time.TotalSeconds}s - {activity.PlayedAt}");
             }
 
             // Crew districts
@@ -52,7 +56,7 @@ namespace NightRiderz {
                 Console.WriteLine($"{crew.Tag,-11} {crew.Name+'#'+crew.CrewId,-30} Lv{crew.Level}\t{crew.MemberCount} Members\t{crew.Points} CP");
             }
 
-            // Crew info
+            // Crew
             Thread.Sleep(1000);
             var crewInfo = await Crew.GetInfo(token, 1333);
             var crewMembers = await Crew.GetMembers(token, 1333);
