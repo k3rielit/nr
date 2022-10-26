@@ -53,3 +53,4 @@ The NightRiderz project included in the solution contains more examples.
 - Collect all the hashes
 - Simplify PlayerActivity class
 - Maybe an "X Y ago" DateTimeOffset parser
+- Extract query logic into separate function to fix code repeating
