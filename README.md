@@ -50,3 +50,6 @@ The NightRiderz project included in the solution contains more examples.
 - Document methods
 - Make a helper class to automate queries and IO
 - Maybe add a `bool WasSuccessfulQuery` property to every model
+- Collect all the hashes
+- Simplify PlayerActivity class
+- Maybe an "X Y ago" DateTimeOffset parser
