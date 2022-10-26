@@ -56,9 +56,17 @@ namespace NightRiderz {
             Thread.Sleep(1000);
             var crewInfo = await Crew.GetInfo(token, 1333);
             var crewMembers = await Crew.GetMembers(token, 1333);
+            var crewActivity = await Crew.GetActivity(token, 1333, Activity.Race);
+            var crewLevels = await Crew.GetLevels(token, 1333);
             Console.WriteLine($"#{crewInfo.CrewId} [{crewInfo.Tag}] {crewInfo.Name} ^{crewInfo.Level} {crewInfo.Points} CP - in {crewInfo.City}, {crewInfo.DistrictName} - Drops {(crewInfo.DropsEnabled ? "Enabled" : "Disabled")}");
             foreach(var member in crewMembers) {
                 Console.WriteLine($" - {(member.PersonaId==crewInfo.OwnerPersonaId ? "Owner  " : (member.CanManage ? "Manager" : "Member "))} {member.Name}#{member.PersonaId} {member.Points} CP");
+            }
+            foreach(var item in crewActivity.Take(10)) {
+                Console.WriteLine($" > {item.Time} {item.Emitter} {item.Message} - {item.Points} CP");
+            }
+            foreach(var level in crewLevels) {
+                Console.WriteLine($" ^ {level.Level} ${level.Price} - {level.Status}");
             }
 
             return;

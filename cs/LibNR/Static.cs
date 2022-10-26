@@ -37,21 +37,22 @@ namespace LibNR {
         public static readonly IntToBoolConverter Singleton = new();
     }
 
-    // For cases where a number has a comma or dot
+    // Extracts numbers from any string
     // Usually occurs in PlayerProfile
-    internal class FancyIntConverter : JsonConverter {
+    internal class IntExtract : JsonConverter {
         public override bool CanConvert(Type t) => t == typeof(int) || t == typeof(int?);
         public override object ReadJson(JsonReader reader,Type t,object? existingValue,JsonSerializer serializer) {
             if(reader.TokenType == JsonToken.Null) return 0;
-            var value = (serializer.Deserialize<string>(reader) ?? string.Empty).Replace(",",string.Empty).Replace(".",string.Empty);
-            if(int.TryParse(value,out int i)) return i;
+            string raw = serializer.Deserialize<string>(reader) ?? string.Empty, extracted = "";
+            foreach(char c in raw) extracted += char.IsDigit(c) ? c : string.Empty;
+            if(int.TryParse(extracted,out int i)) return i;
             return 0;
         }
         public override void WriteJson(JsonWriter writer,object? untypedValue,JsonSerializer serializer) {
             if(untypedValue == null) serializer.Serialize(writer,false);
             else if(untypedValue is int integer) serializer.Serialize(writer,integer.ToString()); // serialization not tested, writes normal number
         }
-        public static readonly FancyIntConverter Singleton = new();
+        public static readonly IntExtract Singleton = new();
     }
 
     // For cases where a value can be a number and a boolean false (PlayerProfile.CrewId for example)

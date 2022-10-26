@@ -78,5 +78,37 @@ namespace LibNR {
             return members;
         }
         public static async Task<List<CrewMember>> GetMembers(SessionLogin login, int crewId) => await GetMembers(login.PersonaId, login.Token, crewId);
+
+
+        // Get all the different kinds of crew activities
+        public static async Task<List<CrewActivity>> GetActivity(int personaId, string token, int crewId, string activityType) {
+            string raw = await Utils.ReqAsync(HttpMethod.Post, personaId, token, new PRequestBody { Service = "crew", Method = "GetActivity", Params = { crewId, activityType } });
+            List<CrewActivity> activities = new();
+            try {
+                activities = JsonConvert.DeserializeObject<List<CrewActivity>>(raw, Converter.Settings) ?? new();
+            }
+            catch(Exception ex) {
+                Console.WriteLine($"ERROR Crew.GetActivity(): {ex.Message}");
+            }
+            return activities;
+        }
+        public static async Task<List<CrewActivity>> GetActivity(SessionLogin login, int crewId, string activityType) => await GetActivity(login.PersonaId, login.Token, crewId, activityType);
+
+
+        // Get a list about the status and price of different rew levels
+        // Only works if you're the owner (or manager?) of the clan
+        public static async Task<List<CrewLevel>> GetLevels(int personaId, string token, int crewId) {
+            string raw = await Utils.ReqAsync(HttpMethod.Post, personaId, token, new PRequestBody { Service = "crew", Method = "GetLevel", Params = { crewId } });
+            List<CrewLevel> levels = new();
+            try {
+                levels = JsonConvert.DeserializeObject<List<CrewLevel>>(raw, Converter.Settings) ?? new();
+            }
+            catch(Exception ex) {
+                Console.WriteLine($"ERROR Crew.GetLevels(): {ex.Message}");
+            }
+            return levels;
+        }
+        public static async Task<List<CrewLevel>> GetLevels(SessionLogin login, int crewId) => await GetLevels(login.PersonaId, login.Token, crewId);
+
     }
 }

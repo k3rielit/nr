@@ -14,14 +14,14 @@ namespace LibNR {
         }
 
         [JsonProperty("boost")]
-        [JsonConverter(typeof(FancyIntConverter))]
+        [JsonConverter(typeof(IntExtract))]
         public int SpeedBoost { get; set; } = 0;
 
         [JsonProperty("ID")]
         public int PersonaId { get; set; } = 0;
 
         [JsonProperty("cash")]
-        [JsonConverter(typeof(FancyIntConverter))]
+        [JsonConverter(typeof(IntExtract))]
         public int Cash { get; set; } = 0;
 
         [JsonProperty("level")]
@@ -34,18 +34,18 @@ namespace LibNR {
         public string Name { get; set; } = string.Empty;
 
         [JsonProperty("score")]
-        [JsonConverter(typeof(FancyIntConverter))]
+        [JsonConverter(typeof(IntExtract))]
         public int Score { get; set; } = 0;
 
         [JsonProperty("created")]
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.MinValue;
 
         [JsonProperty("prestige")]
-        [JsonConverter(typeof(FancyIntConverter))]
+        [JsonConverter(typeof(IntExtract))]
         public int Prestige { get; set; } = 0;
 
         [JsonProperty("iconIndex")]
-        [JsonConverter(typeof(FancyIntConverter))]
+        [JsonConverter(typeof(IntExtract))]
         public int IconIndex { get; set; } = 0;
 
         [JsonProperty("last_login")]
@@ -58,7 +58,7 @@ namespace LibNR {
         public int UserId { get; set; } = 0;
 
         [JsonProperty("streak")]
-        [JsonConverter(typeof(FancyIntConverter))]
+        [JsonConverter(typeof(IntExtract))]
         public int Streak { get; set; } = 0;
 
         [JsonProperty("isAdmin")]
@@ -78,11 +78,11 @@ namespace LibNR {
         public bool IsDeveloper { get; set; } = false;
 
         [JsonProperty("challenges")]
-        [JsonConverter(typeof(FancyIntConverter))]
+        [JsonConverter(typeof(IntExtract))]
         public int Challenges { get; set; } = 0;
 
         [JsonProperty("cars")]
-        [JsonConverter(typeof(FancyIntConverter))]
+        [JsonConverter(typeof(IntExtract))]
         public int CarCount { get; set; } = 0;
 
         [JsonProperty("role")]
@@ -99,7 +99,7 @@ namespace LibNR {
         public int CrewId { get; set; } = 0;
 
         [JsonProperty("races")]
-        [JsonConverter(typeof(FancyIntConverter))]
+        [JsonConverter(typeof(IntExtract))]
         public int RaceCount { get; set; } = 0;
     }
 
