@@ -83,3 +83,4 @@ var activity = await Utils.NrGet<List<PlayerActivity>>(
 - Implement `Utils.NrSet(...)` method
 - Changing name
 - NuGet package (when it's done)
+- Add async user activity observer, firing Events (event finish, challenge done, updated profile, etc)
